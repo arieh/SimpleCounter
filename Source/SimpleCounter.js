@@ -8,9 +8,7 @@ authors:
 - Arieh Glazer
 
 requires:
-- core: 1.2.4/Class
-- core: 1.2.4/Class.Extras
-- core: 1.2.4/Element
+- core/1.2.4 : [Class, Class.Extras, Element]
 
 provides: SimpleCounter
 
