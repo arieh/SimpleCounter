@@ -1,7 +1,7 @@
 SimpleCounter
 ========
 A simple counter that counts how much time remains/passed from a spcified date and time.
-
+The class was inspired by a joomla pugin called util_counter, which can be found ![Here](http://www.ultijoomla.com/downloads?func=fileinfo&id=2)
 ![Screenshot](http://github.com/arieh/SimpleCounter/raw/master/screenshot.png)
 
 
