@@ -12,6 +12,7 @@ How to use
 	
 	#HTML
 	<div id='res'></div>
+
 	
 	#JS
 	var counter = new SimpleCounter('res',new Date(2011,12,1));
