@@ -1,0 +1,7 @@
+name: SimpleCounter 
+author:  arieh
+current: 0.1 
+category: Interface 
+tags:  [counter,widget]
+docs: http://moodocs.net/arieh/SimpleCounter/simplecounter 
+demo: http://arieh.github.com/SimpleCounter/
