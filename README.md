@@ -2,7 +2,7 @@ SimpleCounter
 ========
 A simple counter that counts how much time remains/passed from a spcified date and time.
 
-![Screenshot]()
+![Screenshot](http://github.com/arieh/SimpleCounter/raw/master/screenshot.png)
 
 
 How to use
