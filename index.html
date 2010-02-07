@@ -1,0 +1,30 @@
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd>
+
+<html>
+<head>
+	<title>SimpleCounter Demo</title>
+	<meta http-equiv="Content-Type" content="text/html; charset='UTF-8'" />
+
+	<style type='text/css'>
+		.number{font-size:2em; font-weight:bold}
+	</style>
+</head>
+<body>
+<h1>Simple Counter</h1>
+<h2>Default Example</h2>
+<div id='res1'></div>
+<h2>Different String: <code>[d] - [h]:[m]:[s]</code></h2>
+<div id='res2'></div>
+<h2>More Complex: <code>[D] and [H] - [m].[s]</code> (counting upwards)</h2>
+<div id='res3'></div>
+<script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js'></script>
+<script type='text/javascript' src='../Source/SimpleCounter.js'></script>
+<script type='text/javascript'>
+	var counter1 = new SimpleCounter('res1',new Date(2010,12,3));
+	var counter1 = new SimpleCounter('res2',new Date(2010,12,3),{'format':'[d] - [h]:[m]:[s]'});
+	var counter1 = new SimpleCounter('res3',new Date(2009,12,3),{format:'[D] and [H] - [m].[s]'});
+</script>
+</body>
+</html>
