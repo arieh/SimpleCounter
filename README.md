@@ -13,6 +13,7 @@ How to use
 	#HTML
 	<div id='res'></div>
 
+Then the JS:
 	
 	#JS
 	var counter = new SimpleCounter('res',new Date(2011,12,1));
@@ -39,5 +40,5 @@ Else, if a smal letter is used, only the unit's number will be used.
 Examples:
 
 	#JS
-	'[D] [h]:[m]:[s]' // 14 Days, 10:34:15
+	'[D] [h]:[m]:[s]' // 14 Days 10:34:15
 	'[D], [H] and [M]' // 14 Days, 10 Hours 34 and Minutes
