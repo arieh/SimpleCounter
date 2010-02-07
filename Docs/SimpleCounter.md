@@ -1,4 +1,4 @@
-Class: TreeAcordion {#SimpleCounter}
+Class: SimpleCounter {#SimpleCounter}
 ==========================================
 The Tree-Acordion takes a tree structured HTML element and adds the effects needed to make it use an accordion effect on its branches.
 the class also provides keybard accessible interface.
