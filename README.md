@@ -41,4 +41,4 @@ Examples:
 
 	#JS
 	'[D] [h]:[m]:[s]' // 14 Days 10:34:15
-	'[D], [H] and [M]' // 14 Days, 10 Hours 34 and Minutes
+	'[D], [H] and [M]' // 14 Days, 10 Hours and 34 Minutes
