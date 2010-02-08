@@ -50,7 +50,6 @@ var SimpleCounter = new Class({
 	},
 	time :{d:0,h:0,m:0,s:0},
 	stopTime : {d:false,h:false,m:false,s:false},
-	currentTime : 0,
 	handle : null,
 	container : null,
 	format:[],
@@ -69,12 +68,16 @@ var SimpleCounter = new Class({
 		this.start();
 	},
 	setTargetTime : function(target_time){
-		this.currentTime = (  ($type(target_time)=='date') ? ((target_time-new Date())/1000) : target_time-(new Date()/1000)  ).toInt();
-		this.countDown = this.currentTime>0;
-		if (this.currentTime<0) this.currentTime = this.currentTime*-1;
-		
-		var timeleft = this.currentTime,
+		var timeleft = target_time,
+			now = (new Date())/1000,
 			seconds,minutes,days,hours,i;
+		
+		timeleft = ($type(timeleft) == 'date') ? timeleft/1000 : timeleft;
+		
+		timeleft = (timeleft - now).toInt();
+		
+		this.countDown = timeleft > 0;
+		if (timeleft<0) timeleft = timeleft*-1;
 		
 		seconds  =  timeleft%60;
 		timeleft -= seconds;
