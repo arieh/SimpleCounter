@@ -240,7 +240,7 @@ var SimpleCounter = new Class({
 	/**
 	 * Starts the counter. If supplied, will set a new target time
 	 *   @var {Date|Integer} A target date or a timestamp (in seconds) or a target date
-	 * @return null
+	 * @return this
 	 */
 	start : function(target_time){
 		this.stop();
@@ -249,12 +249,17 @@ var SimpleCounter = new Class({
 		
 		this.setClock();
 		this.handle = this.setClock.periodical(1000);
+		
+		return this;
 	},
 	/**
 	 * Stops the counter
+	 * @return this
 	 */
 	stop : function(){
 		$clear(this.handle);
+		
+		return this;
 	},
 	toElement: function(){return this.container;}
 });
