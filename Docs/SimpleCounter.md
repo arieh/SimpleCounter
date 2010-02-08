@@ -19,7 +19,8 @@ SimpleCounter Method: constructor {#SimpleCounter:constructor}
 
 1. format (`string`) : In what way to format the counter (see more below). default is `[D] [H] [M] [S]`.
 2. lang (`object`): Alternative words to use or counter. for more detail see source code.
-3. leadingZero (`bool`): whether to add a leading zero to numbers smaller than 10. default is `true`.
+3. leadingZero (`bool`): whether to add a leading zero to numbers smaller than 10. default is `true`. 
+4. continue (`bool`) : whether to start countng upwards when countdown is done. default is `false`.
 
 #### Date Format:
 
@@ -58,3 +59,8 @@ The Class uses the following CSS classes:
  * `counter_container` : the counter container.
  * `number` : the counter's unit numbers
  * `word` : the counter`s unit names
+ 
+SimpleCounter: Events {#SimpleCounter:Events}
+---------------------
+
+ * `done` : Fires when countdown is done

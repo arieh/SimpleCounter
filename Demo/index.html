@@ -22,7 +22,7 @@
 <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js'></script>
 <script type='text/javascript' src='../Source/SimpleCounter.js'></script>
 <script type='text/javascript'>
-	var counter1 = new SimpleCounter('res1',new Date(2010,12,3));
+	var counter1 = new SimpleCounter('res1',(new Date())/1000+10,{'continue':true});
 	var counter1 = new SimpleCounter('res2',new Date(2010,12,3),{'format':'[d] - [h]:[m]:[s]'});
 	var counter1 = new SimpleCounter('res3',new Date(2009,12,3),{format:'[D] and [H] - [m].[s]'});
 </script>
