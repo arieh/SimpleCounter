@@ -15,7 +15,7 @@ provides: SimpleCounter
 ...
 */
 /*!
-Copyright (c) 2009 Arieh Glazer
+Copyright (c) 2010 Arieh Glazer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -38,26 +38,54 @@ THE SOFTWARE
 var SimpleCounter = new Class({
 	Implements : [Options, Events],
 	options : {
+		/*
+		 * onDone : $empty
+		 */
 		format : "[D] [H] [M] [S]", //how to format date output
-		lang : {
-			d:{single:'Day',plural:'Days'},
-			h:{single:'Hour',plural:'Hours'},
-			m:{single:'Minute',plural:'Minutes'},
-			s:{single:'Second',plural:'Seconds'}
+		lang : {//Holds the single and pluar time unit names:
+			d:{single:'Day',plural:'Days'},       //days
+			h:{single:'Hour',plural:'Hours'},     //hours
+			m:{single:'Minute',plural:'Minutes'}, //minutes
+			s:{single:'Second',plural:'Seconds'}  //seconds
 		},
 		leadingZero : true, //whether or not to add a leading zero to counters
 		'continue' : false
 	},
+	/**
+	 * @var {Object} contains current date data
+	 */
 	time :{d:0,h:0,m:0,s:0},
+	/**
+	 * @var {Object} which units should no longer be counted down
+	 */
 	stopTime : {d:false,h:false,m:false,s:false},
+	/**
+	 * @var {Interval Pointer} a handle to the interval calls
+	 */
 	handle : null,
+	/**
+	 * @var {Element} the element containing the counter
+	 */
 	container : null,
+	/**
+	 * @var {Array} the date format split into it's segments
+	 */
 	format:[],
-	countDown : false,
+	/**
+	 * @var {Boolean} whether to count down (true) or up (false)
+	 */
+	countDown : true,
+	/**
+	 * constructor
+	 *  @var {Element} element to inject the counter into
+	 *  @var {Date|Integer} A target date or a timestamp (in seconds) or a target date
+	 *  @var {Object} an options object
+	 * @return null
+	 */
 	initialize : function(el,target_time,options){
 		this.setOptions(options);
 		
-		this.format = this.options.format.split(/(\[M]|\[H]|\[D]|\[S]|\[m]|\[d]|\[h]|\[s])/);
+		this.format = this.options.format.split(/(\[M\]|\[H\]|\[D\]|\[S\]|\[m\]|\[d\]|\[h\]|\[s\])/);
 		
 		this.container = new Element('div',{'class':'counter_container'}).inject($(el));
 		
@@ -67,12 +95,18 @@ var SimpleCounter = new Class({
 		
 		this.start();
 	},
+	/**
+	 * Inintializes the counter paramaters
+	 *   @var {Date|Integer} A target date or a timestamp (in seconds) or a target date
+	 * @return null
+	 */
 	setTargetTime : function(target_time){
-		var timeleft = target_time,
+		var timeleft = ($type(target_time) == 'date') ? target_time/1000 : target_time;
 			now = (new Date())/1000,
-			seconds,minutes,days,hours,i;
-		
-		timeleft = ($type(timeleft) == 'date') ? timeleft/1000 : timeleft;
+			seconds = 0, 
+			minutes = 0, 
+			days = 0, 
+			hours = 0;
 		
 		timeleft = (timeleft - now).toInt();
 		
@@ -92,13 +126,16 @@ var SimpleCounter = new Class({
 		
 		days     =  timeleft/24;
 		
-		if (days == 0 ) this.stopTime.d = true;
-		if (hours == 0 ) this.stopTime.h = true;
-		if (minutes == 0 ) this.stopTime.m = true;
-		if (seconds == 0 ) this.stopTime.s = true;
+		this.stopTime.d =    ( days === 0 );
+		this.stopTime.h =   ( hours === 0 );
+		this.stopTime.m = ( minutes === 0 );
+		this.stopTime.s = ( seconds === 0 );
 		
 		this.time = {d:days,h:hours,m:minutes,s:seconds};
 	},
+	/**
+	 * Sets the clock. increases/decreases counter, and changes the text accordingly
+	 */
 	setClock : function(){
 		
 		if (this.countDown) this.decrementTime();
@@ -127,16 +164,16 @@ var SimpleCounter = new Class({
 					text += "<span class='number'>" + seconds + "</span> <span class='word'>" + self.options.lang.s[(seconds==1) ? 'single' : 'plural'] + "</span>";
 				break;
 				case '[d]':
-					text +="<span class='number'>" + days + "</span>"
+					text +="<span class='number'>" + days + "</span>";
 				break;
 				case '[h]':
-					text +="<span class='number'>" + hours + "</span>"
+					text +="<span class='number'>" + hours + "</span>";
 				break;
 				case '[m]':
-					text +="<span class='number'>" + minutes + "</span>"
+					text +="<span class='number'>" + minutes + "</span>";
 				break;
 				case '[s]':
-					text += "<span class='number'>" + seconds + "</span>"
+					text += "<span class='number'>" + seconds + "</span>";
 				break;
 				default:
 					text += f;
@@ -146,27 +183,30 @@ var SimpleCounter = new Class({
 		
 		this.container.set('html',text);
 	},
+	/**
+	 * Decrements time counter
+	 */
 	decrementTime : function(){
 		this.time.s--;
 		if (this.time.s<0){
 			this.time.s = this.stopTime.d ? 0 : 59;
 			
-			if (!this.stopTime.s && this.time.s ==0 ) this.stopTime.s = true;
+			if (!this.stopTime.s && this.time.s === 0 ) this.stopTime.s = true;
 			else this.time.m--;	
 			
 			if (this.time.m<0){
 				this.time.m = (this.stopTime.h) ? 0 : 59;
 				
-				if (!this.stopTime.m && this.time.m ==0) this.stopTime.m = true;
+				if (!this.stopTime.m && this.time.m === 0) this.stopTime.m = true;
 				else this.time.h--;
 				
 				if (this.time.h<0){
 					this.time.h = (this.stopTime.d) ? 0 : 23;
 					
-					if (!this.stopTime.h && this.time.h == 0) this.stopTime.h = true;
+					if (!this.stopTime.h && this.time.h === 0) this.stopTime.h = true;
 					else this.time.d--;
 									
-					if (!this.stopTime.d && this.time.d == 0) this.stopTime.d = true;
+					if (!this.stopTime.d && this.time.d === 0) this.stopTime.d = true;
 				}
 			}
 		}
@@ -177,6 +217,9 @@ var SimpleCounter = new Class({
 			else this.stop();
 		}
 	},
+	/**
+	 * Iecrements time counter
+	 */
 	incrementTime : function(){
 		this.time.s++;
 		if (this.time.s>59){
@@ -189,17 +232,27 @@ var SimpleCounter = new Class({
 				
 				if (this.time.h>23){
 					this.time.h = 0;
-					this.time.d++
+					this.time.d++;
 				}
 			}
 		}
 	},
+	/**
+	 * Starts the counter. If supplied, will set a new target time
+	 *   @var {Date|Integer} A target date or a timestamp (in seconds) or a target date
+	 * @return null
+	 */
 	start : function(target_time){
+		this.stop();
+		
 		if (target_time) this.setTargetTime(target_time);
 		
 		this.setClock();
 		this.handle = this.setClock.periodical(1000);
 	},
+	/**
+	 * Stops the counter
+	 */
 	stop : function(){
 		$clear(this.handle);
 	},
