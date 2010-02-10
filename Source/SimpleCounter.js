@@ -41,7 +41,7 @@ var SimpleCounter = new Class({
 		/*
 		 * onDone : $empty
 		 */
-		format : "[D] [H] [M] [S]", //how to format date output
+		format : "{D} {H} {M} {S}", //how to format date output
 		lang : {//Holds the single and pluar time unit names:
 			d:{single:'Day',plural:'Days'},       //days
 			h:{single:'Hour',plural:'Hours'},     //hours
@@ -68,13 +68,17 @@ var SimpleCounter = new Class({
 	 */
 	container : null,
 	/**
-	 * @var {Array} the date format split into it's segments
-	 */
-	format:[],
-	/**
 	 * @var {Boolean} whether to count down (true) or up (false)
 	 */
 	countDown : true,
+	/**
+	 * @var {Object} Hods the formats to substitue the strings with
+	 * 	assumes {number} with unit number and {word} with unit name
+	 */
+	formats : {
+		full : "<span class='number'>{number}</span> <span class='word'>{word}</span>", //Format for full units representation
+		shrt : "<span class='number'>{number}</span>" //Format for short unit representation
+	},
 	/**
 	 * constructor
 	 *  @var {Element} element to inject the counter into
@@ -84,10 +88,8 @@ var SimpleCounter = new Class({
 	 */
 	initialize : function(el,target_time,options){
 		this.setOptions(options);
-		
-		this.format = this.options.format.split(/(\[M\]|\[H\]|\[D\]|\[S\]|\[m\]|\[d\]|\[h\]|\[s\])/);
-		
-		this.container = new Element('div',{'class':'counter_container'}).inject($(el));
+	
+		this.container = new Element('div',{'class':'counter_container'}).inject( document.id(el) );
 		
 		this.setTargetTime(target_time);
 		
@@ -142,43 +144,43 @@ var SimpleCounter = new Class({
 		else this.incrementTime();
 		
 		var self = this,
-			text ='',
+			text =this.options.format,
 			zero = this.options.leadingZero,
 			seconds = (zero) ? ( (this.time.s<10) ? '0' + this.time.s : this.time.s ) : this.time.s,
 			minutes = (zero) ? ( (this.time.m<10) ? '0' + this.time.m : this.time.m ) : this.time.m,
 			hours   = (zero) ? ( (this.time.h<10) ? '0' + this.time.h : this.time.h ) : this.time.h,
 			days    = (zero) ? ( (this.time.d<10) ? '0' + this.time.d : this.time.d ) : this.time.d;
 		
-		this.format.each(function(f){
-			switch(f){
-				case '[D]':
-					text += "<span class='number'>" + days + "</span> <span class='word'>"    + self.options.lang.d[(days==1)    ? 'single' : 'plural'] + "</span>";
-				break;
-				case '[H]':
-					text += "<span class='number'>" + hours + "</span> <span class='word'>"   + self.options.lang.h[(hours==1)   ? 'single' : 'plural'] + "</span>";
-				break;
-				case '[M]':
-					text += "<span class='number'>" + minutes + "</span> <span class='word'>" + self.options.lang.m[(minutes==1) ? 'single' : 'plural'] + "</span>";
-				break;
-				case '[S]':
-					text += "<span class='number'>" + seconds + "</span> <span class='word'>" + self.options.lang.s[(seconds==1) ? 'single' : 'plural'] + "</span>";
-				break;
-				case '[d]':
-					text +="<span class='number'>" + days + "</span>";
-				break;
-				case '[h]':
-					text +="<span class='number'>" + hours + "</span>";
-				break;
-				case '[m]':
-					text +="<span class='number'>" + minutes + "</span>";
-				break;
-				case '[s]':
-					text += "<span class='number'>" + seconds + "</span>";
-				break;
-				default:
-					text += f;
-				break;
-			}
+		text = text.substitute({
+			'D' : this.formats.full.substitute({
+				number : days, 
+				word : this.options.lang.d[(days==1) ? 'single' : 'plural']
+			}),
+			'H' : this.formats.full.substitute({
+				number : hours, 
+				word : this.options.lang.d[(hours==1) ? 'single' : 'plural']
+			}),
+			'M' : this.formats.full.substitute({
+				number : minutes, 
+				word : this.options.lang.d[(minutes==1) ? 'single' : 'plural']
+			}),
+			'S' : this.formats.full.substitute({
+				number : seconds, 
+				word : this.options.lang.d[(seconds==1) ? 'single' : 'plural']
+			}),
+			'd' : this.formats.shrt.substitute({
+				number : days, 
+				word : this.options.lang.d[(days==1) ? 'single' : 'plural']
+			}),
+			'h' : this.formats.shrt.substitute({
+				number : hours, word : this.options.lang.d[(hours==1) ? 'single' : 'plural']
+			}),
+			'm' : this.formats.shrt.substitute({
+				number : minutes, word : this.options.lang.d[(minutes==1) ? 'single' : 'plural']
+			}),
+			's' : this.formats.shrt.substitute({
+				number : seconds, word : this.options.lang.d[(seconds==1) ? 'single' : 'plural']
+			})
 		});
 		
 		this.container.set('html',text);
