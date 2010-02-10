@@ -24,13 +24,13 @@ SimpleCounter Method: constructor {#SimpleCounter:constructor}
 
 #### Date Format:
 
-The class identifies 4 letters: `D`(days), `H`(hours), `M`(minutes), `S`(seconds) surounded by square bracets. If the letters are capital, the unit's name will be used allongside the unit's number.
+The class identifies 4 letters: `D`(days), `H`(hours), `M`(minutes), `S`(seconds) surounded by curly bracets. If the letters are capital, the unit's name will be used allongside the unit's number.
 Else, if a smal letter is used, only the unit's number will be used.
 
 ### Example:
 
-	`[D] [h]:[m]:[s]` : 14 Days, 10:34:15
-	`[D], [H] and [M]` : 14 Days, 10 Hours 34 and Minutes
+	'{D} {h}:{m}:{s}' // 14 Days 10:34:15
+	'{D}, {H} and {M}' // 14 Days, 10 Hours and 34 Minutes
 	
 SimpleCounter Method : Start {#SimpleCounter:start}
 ---------------------
