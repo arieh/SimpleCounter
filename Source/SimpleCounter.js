@@ -51,34 +51,40 @@ var SimpleCounter = new Class({
 		leadingZero : true, //whether or not to add a leading zero to counters
 		'continue' : false
 	},
+	
 	/**
 	 * @var {Object} contains current date data
 	 */
 	time :{d:0,h:0,m:0,s:0},
+	
 	/**
 	 * @var {Object} which units should no longer be counted down
 	 */
 	stopTime : {d:false,h:false,m:false,s:false},
+	
 	/**
 	 * @var {Interval Pointer} a handle to the interval calls
 	 */
 	handle : null,
+	
 	/**
 	 * @var {Element} the element containing the counter
 	 */
 	container : null,
+	
 	/**
 	 * @var {Boolean} whether to count down (true) or up (false)
 	 */
 	countDown : true,
+	
 	/**
-	 * @var {Object} Hods the formats to substitue the strings with
-	 * 	assumes {number} with unit number and {word} with unit name
+	 * @var {Object} Hods the formats to substitue the strings with. Assumes {number} with unit number and {word} with unit name
 	 */
 	formats : {
 		full : "<span class='number'>{number}</span> <span class='word'>{word}</span>", //Format for full units representation
 		shrt : "<span class='number'>{number}</span>" //Format for short unit representation
 	},
+	
 	/**
 	 * constructor
 	 *  @var {Element} element to inject the counter into
@@ -87,6 +93,8 @@ var SimpleCounter = new Class({
 	 * @return null
 	 */
 	initialize : function(el,target_time,options){
+		var formats;
+		
 		this.setOptions(options);
 	
 		this.container = new Element('div',{'class':'counter_container'}).inject( document.id(el) );
@@ -103,7 +111,7 @@ var SimpleCounter = new Class({
 	 * @return null
 	 */
 	setTargetTime : function(target_time){
-		var timeleft = ($type(target_time) == 'date') ? target_time/1000 : target_time;
+		var timeleft = (typeOf(target_time) == 'date') ? target_time/1000 : target_time;
 			now = (new Date())/1000,
 			seconds = 0, 
 			minutes = 0, 
@@ -135,6 +143,7 @@ var SimpleCounter = new Class({
 		
 		this.time = {d:days,h:hours,m:minutes,s:seconds};
 	},
+	
 	/**
 	 * Sets the clock. increases/decreases counter, and changes the text accordingly
 	 */
@@ -185,6 +194,7 @@ var SimpleCounter = new Class({
 		
 		this.container.set('html',text);
 	},
+	
 	/**
 	 * Decrements time counter
 	 */
@@ -219,6 +229,7 @@ var SimpleCounter = new Class({
 			else this.stop();
 		}
 	},
+	
 	/**
 	 * Iecrements time counter
 	 */
@@ -239,6 +250,7 @@ var SimpleCounter = new Class({
 			}
 		}
 	},
+	
 	/**
 	 * Starts the counter. If supplied, will set a new target time
 	 *   @var {Date|Integer} A target date or a timestamp (in seconds) or a target date
@@ -254,6 +266,7 @@ var SimpleCounter = new Class({
 		
 		return this;
 	},
+	
 	/**
 	 * Stops the counter
 	 * @return this
