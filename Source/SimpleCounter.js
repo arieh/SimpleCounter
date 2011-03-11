@@ -272,7 +272,7 @@ var SimpleCounter = new Class({
 	 * @return this
 	 */
 	stop : function(){
-		$clear(this.handle);
+		clearInterval(this.handle);
 		
 		return this;
 	},

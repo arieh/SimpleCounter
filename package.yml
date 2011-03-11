@@ -1,6 +1,6 @@
 name: SimpleCounter 
 author:  arieh
-current: 0.3.2
+current: 0.3.3
 category: Interface 
 tags:  [counter,widget]
 docs: http://moodocs.net/arieh/SimpleCounter/simplecounter 
