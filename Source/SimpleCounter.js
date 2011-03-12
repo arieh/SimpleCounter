@@ -167,28 +167,28 @@ var SimpleCounter = new Class({
 			}),
 			'H' : this.formats.full.substitute({
 				number : hours, 
-				word : this.options.lang.d[(hours==1) ? 'single' : 'plural']
+				word : this.options.lang.h[(hours==1) ? 'single' : 'plural']
 			}),
 			'M' : this.formats.full.substitute({
 				number : minutes, 
-				word : this.options.lang.d[(minutes==1) ? 'single' : 'plural']
+				word : this.options.lang.m[(minutes==1) ? 'single' : 'plural']
 			}),
 			'S' : this.formats.full.substitute({
 				number : seconds, 
-				word : this.options.lang.d[(seconds==1) ? 'single' : 'plural']
+				word : this.options.lang.s[(seconds==1) ? 'single' : 'plural']
 			}),
 			'd' : this.formats.shrt.substitute({
 				number : days, 
 				word : this.options.lang.d[(days==1) ? 'single' : 'plural']
 			}),
 			'h' : this.formats.shrt.substitute({
-				number : hours, word : this.options.lang.d[(hours==1) ? 'single' : 'plural']
+				number : hours, word : this.options.lang.h[(hours==1) ? 'single' : 'plural']
 			}),
 			'm' : this.formats.shrt.substitute({
-				number : minutes, word : this.options.lang.d[(minutes==1) ? 'single' : 'plural']
+				number : minutes, word : this.options.lang.m[(minutes==1) ? 'single' : 'plural']
 			}),
 			's' : this.formats.shrt.substitute({
-				number : seconds, word : this.options.lang.d[(seconds==1) ? 'single' : 'plural']
+				number : seconds, word : this.options.lang.s[(seconds==1) ? 'single' : 'plural']
 			})
 		});
 		
