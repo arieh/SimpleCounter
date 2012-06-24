@@ -41,12 +41,13 @@ var SimpleCounter = new Class({
 		/*
 		 * onDone : $empty
 		 */
-		format : "{D} {H} {M} {S}", //how to format date output
+		format : "{W} {D} {H} {M} {S}", //how to format date output
 		lang : {//Holds the single and pluar time unit names:
-			d:{single:'Day',plural:'Days'},       //days
-			h:{single:'Hour',plural:'Hours'},     //hours
-			m:{single:'Minute',plural:'Minutes'}, //minutes
-			s:{single:'Second',plural:'Seconds'}  //seconds
+			w:{single:'Week',plural:'Weken'},    //weeks
+			d:{single:'Dag',plural:'Dagen'},       //days
+			h:{single:'Uur',plural:'Uur'},     //hours
+			m:{single:'Minuut',plural:'Minuten'}, //minutes
+			s:{single:'Seconde',plural:'Seconden'}  //seconds
 		},
 		leadingZero : true, //whether or not to add a leading zero to counters
 		'continue' : false
@@ -55,12 +56,12 @@ var SimpleCounter = new Class({
 	/**
 	 * @var {Object} contains current date data
 	 */
-	time :{d:0,h:0,m:0,s:0},
+	time :{w:0,d:0,h:0,m:0,s:0},
 	
 	/**
 	 * @var {Object} which units should no longer be counted down
 	 */
-	stopTime : {d:false,h:false,m:false,s:false},
+	stopTime : {w:false,d:false,h:false,m:false,s:false},
 	
 	/**
 	 * @var {Interval Pointer} a handle to the interval calls
@@ -98,7 +99,7 @@ var SimpleCounter = new Class({
 		this.setOptions(options);
 	
 		this.container = new Element('div',{'class':'counter_container'}).inject( document.id(el) );
-		
+
 		this.setTargetTime(target_time);
 		
 		this.setClock = this.setClock.bind(this);
@@ -116,6 +117,7 @@ var SimpleCounter = new Class({
 			seconds = 0, 
 			minutes = 0, 
 			days = 0, 
+			weeks = 0,
 			hours = 0;
 		
 		timeleft = (timeleft - now).toInt();
@@ -133,15 +135,20 @@ var SimpleCounter = new Class({
 		
 		hours    =  timeleft%24;
 		timeleft -= hours;
+		timeleft = timeleft/24;
 		
-		days     =  timeleft/24;
+		days     =  timeleft%7;
+		timeleft -= days;
+
+		weeks    = timeleft/7;
 		
+		this.stopTime.w =   ( weeks === 0 );
 		this.stopTime.d =    ( days === 0 );
 		this.stopTime.h =   ( hours === 0 );
 		this.stopTime.m = ( minutes === 0 );
 		this.stopTime.s = ( seconds === 0 );
 		
-		this.time = {d:days,h:hours,m:minutes,s:seconds};
+		this.time = {w:weeks,d:days,h:hours,m:minutes,s:seconds};
 	},
 	
 	/**
@@ -158,9 +165,14 @@ var SimpleCounter = new Class({
 			seconds = (zero) ? ( (this.time.s<10) ? '0' + this.time.s : this.time.s ) : this.time.s,
 			minutes = (zero) ? ( (this.time.m<10) ? '0' + this.time.m : this.time.m ) : this.time.m,
 			hours   = (zero) ? ( (this.time.h<10) ? '0' + this.time.h : this.time.h ) : this.time.h,
+			weeks   = (zero) ? ( (this.time.w<10) ? '0' + this.time.w : this.time.w ) : this.time.w,
 			days    = (zero) ? ( (this.time.d<10) ? '0' + this.time.d : this.time.d ) : this.time.d;
 		
 		text = text.substitute({
+			'W' : this.formats.full.substitute({
+				number : weeks, 
+				word : this.options.lang.w[(weeks==1) ? 'single' : 'plural']
+			}),
 			'D' : this.formats.full.substitute({
 				number : days, 
 				word : this.options.lang.d[(days==1) ? 'single' : 'plural']
@@ -189,6 +201,9 @@ var SimpleCounter = new Class({
 			}),
 			's' : this.formats.shrt.substitute({
 				number : seconds, word : this.options.lang.s[(seconds==1) ? 'single' : 'plural']
+			}),
+			'w' : this.formats.shrt.substitute({
+				number : weeks, word : this.options.lang.w[(weeks==1) ? 'single' : 'plural']
 			})
 		});
 		
