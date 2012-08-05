@@ -43,11 +43,11 @@ var SimpleCounter = new Class({
 		 */
 		format : "{W} {D} {H} {M} {S}", //how to format date output
 		lang : {//Holds the single and pluar time unit names:
-			w:{single:'Week',plural:'Weken'},    //weeks
-			d:{single:'Dag',plural:'Dagen'},       //days
-			h:{single:'Uur',plural:'Uur'},     //hours
-			m:{single:'Minuut',plural:'Minuten'}, //minutes
-			s:{single:'Seconde',plural:'Seconden'}  //seconds
+			w:{single:'Week',plural:'Weeks'},    //weeks
+			d:{single:'Day',plural:'Days'},       //days
+			h:{single:'Hour',plural:'Hours'},     //hours
+			m:{single:'Minute',plural:'Minutes'}, //minutes
+			s:{single:'Second',plural:'Seconds'}  //seconds
 		},
 		leadingZero : true, //whether or not to add a leading zero to counters
 		'continue' : false
