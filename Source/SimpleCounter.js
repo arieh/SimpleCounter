@@ -201,7 +201,8 @@ var SimpleCounter = new Class({
 	decrementTime : function(){
 		this.time.s--;
 		if (this.time.s<0){
-			this.time.s = this.stopTime.d ? 0 : 59;
+			//Stop it all if d, h and m are zero
+			this.time.s = this.stopTime.d && this.stopTime.h && this.stopTime.m ? 0 : 59;
 			
 			if (!this.stopTime.s && this.time.s === 0 ) this.stopTime.s = true;
 			else this.time.m--;	
